@@ -366,13 +366,32 @@ const deck = [{
 
 window.addEventListener("load", function() {
     const disDeck = document.getElementById("displayDeck");
+    let games = [{"war": disWar}, {"spider": disSpiderSol}];
     //displayCard(disDeck, deck);
     let shuffled = shuffle(deck);
+    let select;
     //displayCard(disDeck,shuffled);
-    
+    const form = document.querySelector("form");
+
+    form.addEventListener('submit', function(event){
+        select = document.querySelector("input[name=chooseGame]:checked").value;
+        form.hidden=true;
+        event.preventDefault();
+        console.log(select);
+        
+    });
+
+    console.log(select);
+    document.getElementById("choice").innerHTML=`You chose ${select}`;
+    displayCard(disDeck,shuffled);
 });
 
+function disWar(){}
+function disSpiderSol(){}
 
+function getGame(select){
+    return games[select];
+}
 
 function displayCard(disDeck, deck){
     let display = disDeck;
@@ -380,8 +399,6 @@ function displayCard(disDeck, deck){
      let img = document.createElement("img");
         img.src = deck[x].image;
         display.appendChild(img);
-
-
     }
 }
 
