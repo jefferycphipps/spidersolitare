@@ -64,3 +64,9 @@ button {
  .imgContainer{
    text-align: center;
  }
+ .drawDeck{
+  vertical-align: middle;
+  border: black;
+  border-style: solid;
+  width: 300px;
+ }

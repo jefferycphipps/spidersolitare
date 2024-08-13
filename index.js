@@ -363,13 +363,22 @@ const deck = [{
     visable: true
 }
 ];
-
+const solGame ={
+    pickedGame: "",
+    indexofCards: 0,
+    numberofDeals: 1,
+    numberOfCardsPicked: 0,
+    idOfFirstCard: "",
+    idOfSecondCard: "",
+    deckCount: 0,
+    deck: shuffle(deck)
+}
 window.addEventListener("load", function() {
     const disDeck = document.getElementById("displayDeck");
     const pyr = document.getElementById("pyramidPlay");
     let games = [{"war": disWar}, {"pyramid": disPyrSol}];
     //displayCard(disDeck, deck);
-    let shuffled = shuffle(deck);
+    //let shuffled = shuffle(deck);
     let select;
     //displayCard(disDeck,shuffled);
     const form = document.querySelector("form");
@@ -384,11 +393,12 @@ window.addEventListener("load", function() {
 
     console.log(select);
     document.getElementById("choice").innerHTML=`You chose ${select}`;
-    disPyrSol(pyr,shuffled);
+    disPyrSol(pyr);
+    playSol();
 });
 
 function disWar(){}
-function disPyrSol(pyr, deck){
+function disPyrSol(pyr){
     let showPyr = pyr;
     showPyr.id = "pyr";
     let count = 0;
@@ -400,23 +410,103 @@ function disPyrSol(pyr, deck){
         //row.id = 'row';
         while(y<x){
             let img = document.createElement("img");
-            img.src = deck[count].image;
-            img.alt = `${deck[count].type} of ${deck[count].suit}`;
+            img.src = solGame.deck[count].image;
+            img.alt = `${solGame.deck[count].type} of ${solGame.deck[count].suit}`;
+            img.id = `${solGame.deck[count].type} of ${solGame.deck[count].suit}`;
             imgDiv.appendChild(img);
             //row.innerHTML = x;
             y++;
             count ++;
+            if(count<21)
+                deck.visable = false;
+            solGame.deckCount = count;
         }
         //showPyr.appendChild(row);
         const para = document.createElement("p");
         //para.innerHTML = 'hi';
         imgDiv.appendChild(para);
         showPyr.appendChild(imgDiv);
-        
+        console.log(solGame.deckCount);
         
     }
     
 }
+function playSol(){
+    let flag = startGame();
+    let drawDeck = document.getElementById("drawDeck");
+    let img = document.createElement("img");
+    let img2 = document.createElement("img");
+    img2.id = "nextCard";
+    img.src = "./cards/cardBack.png";
+    img.id = "drawCard";
+    drawDeck.appendChild(img);
+    drawDeck.appendChild(img2);
+    document.addEventListener('click', function(event) {
+        let where = event.target.id;
+        cardClicked(where);
+        //console.log(`I clicked ${where}`);
+     });
+}
+
+function startGame(){
+    return true;
+}
+
+function cardClicked(id){
+    let card = document.getElementById(id);
+    let word = typeof id;
+    console.log(id, word);
+    if(id.indexOf("of") !=-1){//need to lock out certain cards.
+        console.log(card.style.border);
+        if(card.style.borderColor === "green"){//already selected
+            if(solGame.numberOfCardsPicked===2){
+                card.style.border = "none";
+                if(id===solGame.idOfFirstCard){
+                    solGame.idOfFirstCard = "";
+                }else{
+                    solGame.idOfSecondCard = "";
+                }
+                solGame.numberOfCardsPicked--;
+            }else if(solGame.numberOfCardsPicked===1){
+                card.style.border = "none";
+                if(id===solGame.idOfFirstCard){
+                    solGame.idOfFirstCard = "";
+                }else{
+                    solGame.idOfSecondCard = "";
+                }
+                solGame.numberOfCardsPicked--;
+            }
+        }else{//first time being picked
+            if(solGame.numberOfCardsPicked===0){
+                card.style.border = "solid";
+                card.style.borderColor = "green"; 
+                solGame.idOfFirstCard = id;
+                solGame.numberOfCardsPicked++;
+                console.log(solGame.numberOfCardsPicked);
+            }else if(solGame.numberOfCardsPicked===1){
+                card.style.border = "solid";
+                card.style.borderColor = "green"; 
+                solGame.idOfSecondCard = id;
+                solGame.numberOfCardsPicked++;
+            }else{
+                alert("two cards are already selected.");
+            }
+            
+        } 
+    }
+    if(id ==="drawCard"){
+        let drawDeck = document.getElementById("drawDeck");
+        let img = document.getElementById("nextCard");
+        img.src = solGame.deck[solGame.deckCount].image;
+        img.alt = `${solGame.deck[solGame.deckCount].type} of ${solGame.deck[solGame.deckCount].suit}`;
+        img.id = `${solGame.deck[solGame.deckCount].type} of ${solGame.deck[solGame.deckCount].suit}`;
+        solGame.deckCount++;
+        console.log(solGame.deckCount);
+    }
+}
+
+
+
 
 function getGame(select){
     return games[select];
