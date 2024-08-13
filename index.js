@@ -72,21 +72,21 @@ const deck = [{
     suit: "spades",
     type: "jack",
     value: 10,
-    image: "./cards/jack_of_spades.png",
+    image: "./cards/jack_of_spades2.png",
     visable: true
 },
 {
     suit: "spades",
     type: "queen",
     value: 11,
-    image: "./cards/queen_of_spades.png",
+    image: "./cards/queen_of_spades2.png",
     visable: true
 },
 {
     suit: "spades",
     type: "king",
     value: 12,
-    image: "./cards/king_of_spades.png",
+    image: "./cards/king_of_spades2.png",
     visable: true
 },
 {
@@ -163,21 +163,21 @@ const deck = [{
     suit: "hearts",
     type: "jack",
     value: 10,
-    image: "./cards/jack_of_hearts.png",
+    image: "./cards/jack_of_hearts2.png",
     visable: true
 },
 {
     suit: "hearts",
     type: "queen",
     value: 11,
-    image: "./cards/queen_of_hearts.png",
+    image: "./cards/queen_of_hearts2.png",
     visable: true
 },
 {
     suit: "hearts",
     type: "king",
     value: 12,
-    image: "./cards/king_of_hearts.png",
+    image: "./cards/king_of_hearts2.png",
     visable: true
 },
 {
@@ -254,21 +254,21 @@ const deck = [{
     suit: "diamonds",
     type: "jack",
     value: 10,
-    image: "./cards/jack_of_diamonds.png",
+    image: "./cards/jack_of_diamonds2.png",
     visable: true
 },
 {
     suit: "diamonds",
     type: "queen",
     value: 11,
-    image: "./cards/queen_of_diamonds.png",
+    image: "./cards/queen_of_diamonds2.png",
     visable: true
 },
 {
     suit: "diamonds",
     type: "king",
     value: 12,
-    image: "./cards/king_of_diamonds.png",
+    image: "./cards/king_of_diamonds2.png",
     visable: true
 },
 {
@@ -345,21 +345,21 @@ const deck = [{
     suit: "clubs",
     type: "jack",
     value: 10,
-    image: "./cards/jack_of_clubs.png",
+    image: "./cards/jack_of_clubs2.png",
     visable: true
 },
 {
     suit: "clubs",
     type: "queen",
     value: 11,
-    image: "./cards/queen_of_clubs.png",
+    image: "./cards/queen_of_clubs2.png",
     visable: true
 },
 {
     suit: "clubs",
     type: "king",
     value: 12,
-    image: "./cards/king_of_clubs.png",
+    image: "./cards/king_of_clubs2.png",
     visable: true
 }
 ];
@@ -392,27 +392,27 @@ function disPyrSol(pyr, deck){
     let showPyr = pyr;
     showPyr.id = "pyr";
     let count = 0;
-    
-    
+    //create a row for each section of cards
+    let imgDiv = document.getElementById("imgContainer");
     for (let x = 0; x<8; x++){
         let y = 0;
-        //let row = document.createElement('span');
-        //row.id = 'row'+x;
+        
+        //row.id = 'row';
         while(y<x){
             let img = document.createElement("img");
             img.src = deck[count].image;
             img.alt = `${deck[count].type} of ${deck[count].suit}`;
-            showPyr.appendChild(img);
+            imgDiv.appendChild(img);
             //row.innerHTML = x;
             y++;
             count ++;
-            
-            
         }
-        const para = document.createElement("p");
-        para.innerHTML = 'hi';
-        showPyr.appendChild(para);
         //showPyr.appendChild(row);
+        const para = document.createElement("p");
+        //para.innerHTML = 'hi';
+        imgDiv.appendChild(para);
+        showPyr.appendChild(imgDiv);
+        
         
     }
     
