@@ -63,7 +63,7 @@ const deck = [{
 },
 {
     suit: "spades",
-    type: "10",
+    type: "ten",
     value: 10,
     image: "./cards/10_of_spades.png",
     visable: true
@@ -154,7 +154,7 @@ const deck = [{
 },
 {
     suit: "hearts",
-    type: "10",
+    type: "ten",
     value: 10,
     image: "./cards/10_of_hearts.png",
     visable: true
@@ -245,7 +245,7 @@ const deck = [{
 },
 {
     suit: "diamonds",
-    type: "10",
+    type: "ten",
     value: 10,
     image: "./cards/10_of_diamonds.png",
     visable: true
@@ -336,7 +336,7 @@ const deck = [{
 },
 {
     suit: "clubs",
-    type: "10",
+    type: "ten",
     value: 10,
     image: "./cards/10_of_clubs.png",
     visable: true
@@ -366,7 +366,8 @@ const deck = [{
 
 window.addEventListener("load", function() {
     const disDeck = document.getElementById("displayDeck");
-    let games = [{"war": disWar}, {"spider": disSpiderSol}];
+    const pyr = document.getElementById("pyramidPlay");
+    let games = [{"war": disWar}, {"pyramid": disPyrSol}];
     //displayCard(disDeck, deck);
     let shuffled = shuffle(deck);
     let select;
@@ -383,11 +384,39 @@ window.addEventListener("load", function() {
 
     console.log(select);
     document.getElementById("choice").innerHTML=`You chose ${select}`;
-    displayCard(disDeck,shuffled);
+    disPyrSol(pyr,shuffled);
 });
 
 function disWar(){}
-function disSpiderSol(){}
+function disPyrSol(pyr, deck){
+    let showPyr = pyr;
+    showPyr.id = "pyr";
+    let count = 0;
+    
+    
+    for (let x = 0; x<8; x++){
+        let y = 0;
+        //let row = document.createElement('span');
+        //row.id = 'row'+x;
+        while(y<x){
+            let img = document.createElement("img");
+            img.src = deck[count].image;
+            img.alt = `${deck[count].type} of ${deck[count].suit}`;
+            showPyr.appendChild(img);
+            //row.innerHTML = x;
+            y++;
+            count ++;
+            
+            
+        }
+        const para = document.createElement("p");
+        para.innerHTML = 'hi';
+        showPyr.appendChild(para);
+        //showPyr.appendChild(row);
+        
+    }
+    
+}
 
 function getGame(select){
     return games[select];

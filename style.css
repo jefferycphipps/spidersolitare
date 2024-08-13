@@ -1,7 +1,7 @@
 img {
-    height: 182px;
-    width: 125px;
-    padding: 10px;
+   height: 145px;
+   width: 100px;
+   padding: 3px;
 }
 
 button {
@@ -26,4 +26,25 @@ button {
  }
  form {
     border: black;
+    border-radius: 1px;
  }
+
+
+ #pyr {
+   display: block;
+   width: 800px;
+   height: 1125px;
+   margin-left: auto;
+   margin-right: auto;
+   border: green;
+   border-style: solid;
+   position: relative;
+ }
+ 
+ #pyr p {
+   border: blue;
+   border-style: solid;
+   margin: auto;
+   text-align: center;
+ }
+ 
