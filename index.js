@@ -71,21 +71,21 @@ const deck = [{
 {
     suit: "spades",
     type: "jack",
-    value: 10,
+    value: 11,
     image: "./cards/jack_of_spades2.png",
     visable: true
 },
 {
     suit: "spades",
     type: "queen",
-    value: 11,
+    value: 12,
     image: "./cards/queen_of_spades2.png",
     visable: true
 },
 {
     suit: "spades",
     type: "king",
-    value: 12,
+    value: 13,
     image: "./cards/king_of_spades2.png",
     visable: true
 },
@@ -162,21 +162,21 @@ const deck = [{
 {
     suit: "hearts",
     type: "jack",
-    value: 10,
+    value: 11,
     image: "./cards/jack_of_hearts2.png",
     visable: true
 },
 {
     suit: "hearts",
     type: "queen",
-    value: 11,
+    value: 12,
     image: "./cards/queen_of_hearts2.png",
     visable: true
 },
 {
     suit: "hearts",
     type: "king",
-    value: 12,
+    value: 13,
     image: "./cards/king_of_hearts2.png",
     visable: true
 },
@@ -253,21 +253,21 @@ const deck = [{
 {
     suit: "diamonds",
     type: "jack",
-    value: 10,
+    value: 11,
     image: "./cards/jack_of_diamonds2.png",
     visable: true
 },
 {
     suit: "diamonds",
     type: "queen",
-    value: 11,
+    value: 12,
     image: "./cards/queen_of_diamonds2.png",
     visable: true
 },
 {
     suit: "diamonds",
     type: "king",
-    value: 12,
+    value: 13,
     image: "./cards/king_of_diamonds2.png",
     visable: true
 },
@@ -344,21 +344,21 @@ const deck = [{
 {
     suit: "clubs",
     type: "jack",
-    value: 10,
+    value: 11,
     image: "./cards/jack_of_clubs2.png",
     visable: true
 },
 {
     suit: "clubs",
     type: "queen",
-    value: 11,
+    value: 12,
     image: "./cards/queen_of_clubs2.png",
     visable: true
 },
 {
     suit: "clubs",
     type: "king",
-    value: 12,
+    value: 13,
     image: "./cards/king_of_clubs2.png",
     visable: true
 }
@@ -412,13 +412,13 @@ function disPyrSol(pyr){
             let img = document.createElement("img");
             img.src = solGame.deck[count].image;
             img.alt = `${solGame.deck[count].type} of ${solGame.deck[count].suit}`;
-            img.id = `${solGame.deck[count].type} of ${solGame.deck[count].suit}`;
+            img.id = "place"+count;
             imgDiv.appendChild(img);
             //row.innerHTML = x;
             y++;
             count ++;
             if(count<21)
-                deck.visable = false;
+                solGame.deck.visable = false;
             solGame.deckCount = count;
         }
         //showPyr.appendChild(row);
@@ -454,10 +454,7 @@ function startGame(){
 
 function cardClicked(id){
     let card = document.getElementById(id);
-    let word = typeof id;
-    console.log(id, word);
-    if(id.indexOf("of") !=-1){//need to lock out certain cards.
-        console.log(card.style.border);
+    if(id.indexOf("place") !=-1 || id==="nextCard"){//need to lock out certain cards.
         if(card.style.borderColor === "green"){//already selected
             if(solGame.numberOfCardsPicked===2){
                 card.style.border = "none";
@@ -482,30 +479,75 @@ function cardClicked(id){
                 card.style.borderColor = "green"; 
                 solGame.idOfFirstCard = id;
                 solGame.numberOfCardsPicked++;
-                console.log(solGame.numberOfCardsPicked);
+                isThirteen(id);
             }else if(solGame.numberOfCardsPicked===1){
                 card.style.border = "solid";
                 card.style.borderColor = "green"; 
                 solGame.idOfSecondCard = id;
                 solGame.numberOfCardsPicked++;
+                isThirteen(solGame.idOfFirstCard, solGame.idOfSecondCard);
             }else{
                 alert("two cards are already selected.");
             }
             
         } 
     }
-    if(id ==="drawCard"){
+    if(id ==="drawCard"){//this does not work right now. 
         let drawDeck = document.getElementById("drawDeck");
         let img = document.getElementById("nextCard");
+        if(img.style.visibility==="hidden"){
+            console.log("im hidden and need to come out");
+            img.style.visibility = 'visible';
+        }
+                
         img.src = solGame.deck[solGame.deckCount].image;
         img.alt = `${solGame.deck[solGame.deckCount].type} of ${solGame.deck[solGame.deckCount].suit}`;
-        img.id = `${solGame.deck[solGame.deckCount].type} of ${solGame.deck[solGame.deckCount].suit}`;
+        //img.id = `${solGame.deck[solGame.deckCount].type} of ${solGame.deck[solGame.deckCount].suit}`;
         solGame.deckCount++;
-        console.log(solGame.deckCount);
     }
 }
 
+function isThirteen(first, second = ""){
+    //chedk to see if it is a king first
+    let card1 = document.getElementById(first);
+    let name1 = card1.id;
+    let king = card1.alt
+    if(second==="" && king.indexOf("king")===-1){
+        return;
+    }
+    if (second==="" && king.indexOf("king")!=-1){
+        card1.style.visibility = "hidden";
+        solGame.numberOfCardsPicked--;
+    }else{
+        //get value of the cards
+        let card2 = document.getElementById(second);
+        let name2 = card2.id;
+        console.log(name1, name2, solGame.deckCount);
+        let place1, place2;
+        if (name1 ==="nextCard")
+            place1 = solGame.deck[solGame.deckCount-1].value;
+        if (name2 ==="nextCard")
+            place2 = solGame.deck[solGame.deckCount-1].value;
+        if(name1.indexOf("place")!=-1){
+            place1 = solGame.deck[Number(name1.replace("place",""))].value;
+            console.log(place1);
+        }
+        if(name2.indexOf("place")!=-1){
+            place2 = solGame.deck[Number(name2.replace("place",""))].value; 
+        }
+        console.log(place1 , place2);
+        if(place1+place2===13){
+            card1.style.visibility = "hidden";
+            card2.style.visibility = "hidden";
+            solGame.numberOfCardsPicked=0;
+        }else{
+            return;
+        }
+        //
+    }
+    //check to see if the 2 cards sum to 13 then if they are visible, if they are delete them
 
+}
 
 
 function getGame(select){
@@ -534,6 +576,4 @@ function shuffle(deck){
 
     }
     return tempDeck;
-    
-
 }
