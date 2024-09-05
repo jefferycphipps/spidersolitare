@@ -485,7 +485,7 @@ function cardClicked(id){
                 card.style.borderColor = "green"; 
                 solGame.idOfSecondCard = id;
                 solGame.numberOfCardsPicked++;
-                isThirteen(solGame.idOfFirstCard, solGame.idOfSecondCard);
+                isThirteen(solGame.idOfFirstCard, solGame.idOfSecondCard);//got to handle what happends when cards are removed
             }else{
                 alert("two cards are already selected.");
             }
