@@ -487,7 +487,7 @@ function cardClicked(id){
                 solGame.numberOfCardsPicked++;
                 isThirteen(solGame.idOfFirstCard, solGame.idOfSecondCard);//got to handle what happends when cards are removed
             }else{
-                alert("two cards are already selected.");//changing for the sake of changing
+                alert("two cards are already selected.");
             }
             
         } 
